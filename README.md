@@ -1,5 +1,5 @@
 # 2022-turnpike-pde-resnets
-Codes for the paper "*Turnpike in optimal control of PDEs, ResNets, and beyond*" by Borjan Geshkovski and Enrique Zuazua.
+Codes for the paper "**Turnpike in optimal control of PDEs, ResNets, and beyond**" by Borjan Geshkovski and Enrique Zuazua.
 
 ```
 @article{geshkovski2022turnpike,
