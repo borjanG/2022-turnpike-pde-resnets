@@ -74,18 +74,17 @@ xh2 = xline(-spec_abscissa, 'Color', [0.86 0.08 0.24], "LineWidth", 3, 'alpha', 
 % the undocumented properties.
 warnState = warning('off','MATLAB:structOnObject');
 cleanupObj = onCleanup(@()warning(warnState)); 
-Sxh1 = struct(xh1);        % Get undocumented properties (you'll get a warning)
-Sxh2 = struct(xh2);        % Get undocumented properties (you'll get a warning)
-clear('cleanupObj')      % Trigger warning reset
-Sxh1.Edge.Layer = 'back'; % Set ConstantLine uistack
-Sxh2.Edge.Layer = 'back'; % Set ConstantLine uistack
+Sxh1 = struct(xh1);         % Get undocumented properties (you'll get a warning)
+Sxh2 = struct(xh2);         % Get undocumented properties (you'll get a warning)
+clear('cleanupObj')         % Trigger warning reset
+Sxh1.Edge.Layer = 'back';   % Set ConstantLine uistack
+Sxh2.Edge.Layer = 'back';   % Set ConstantLine uistack
 
 % Ticks
 ax = gca;
 ax.LineWidth=1.5;
 ax.XGrid = 'on';
 ax.YGrid = 'on';
-%set(gca,'XMinorTick','on','YMinorTick','on')
 grid minor
 ax.GridLineStyle = ':';
 ax.MinorGridLineStyle = ':';
@@ -93,7 +92,6 @@ ax.MinorGridLineStyle = ':';
 % Saving 
 % exportgraphics(ax,'eig_Ham_turnpike.pdf','ContentType','vector')
 %exportgraphics(ax,'eig_Ham.pdf','ContentType','vector')
-
 %exportgraphics(ax,'eig_Ham_intro.pdf','ContentType','vector')
 exportgraphics(ax,'eig_Ham_turnpike_intro.pdf','ContentType','vector')
 

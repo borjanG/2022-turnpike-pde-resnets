@@ -3,19 +3,17 @@ close all;
 clc;
 import casadi.*
 
-alpha=1;
+alpha = 1;
 
-%% space
+%% Spatial discretization
 li = 1;
 Nx = 50;                    % number of interior points
 hx = li/(Nx+1);             % space step
 xaxe = linspace(0, li, Nx+2);
 
-%yi0 = 2*exp(-(xaxe-li/2).^2);
+%% Initial datum
 yi0 = sin(xaxe*pi);
-% yi0 = 2*ones(Nx+2, 1); 
-% yi0(1:3,1)=0;
-% yi0(Nx+2-3:Nx+2,1)=0;
+yi1 = 2*exp(-(xaxe-li/2).^2)*0;
 
 figure;
 plot(xaxe, yi0, 'linewidth', 1.85, 'color', 'b')
@@ -26,8 +24,7 @@ ax.YGrid = 'on';
 set(gca,'XMinorTick','on','YMinorTick','on')
 grid minor
 
-yi1 = 2*exp(-(xaxe-li/2).^2)*0;
-
+%% Setup 
 ci = 1;
 ht = hx/ci*0.9;             % time step
 T = 5;                      % length of interval [0,T]
@@ -63,7 +60,6 @@ for k=3:(Nt+2)
     yi(:, k) = A1*yi(:, k-1) - yi(:, k-2) + B*u(k-1);
 end
 
-
 % %%%gif:
 % figure;
 % filename = 'WaveNeu_y_2ndOrder_beforeopti.gif';
@@ -84,13 +80,6 @@ end
 %     end
 % end
 
-
-
-
-
-
-
-
 %% Casadi run        
 opti = casadi.Opti();  % CasADi function
         
@@ -98,10 +87,9 @@ opti = casadi.Opti();  % CasADi function
 Y = opti.variable(Nx+2,Nt+2); % state trajectory
 U = opti.variable(1, Nt+2);   % control
 
-
 %% ---- Control constraints -----------
-% opti.subject_to(-100<=U(:));           % control is limited
-% opti.subject_to(U(:)<=100);           % control is limited
+% opti.subject_to(-100<=U(:));           % control is bounded
+% opti.subject_to(U(:)<=100);            % control is bounded
 opti.subject_to(Y(:,1)==yi(:,1));
 %opti.subject_to(Y(:,2)==yi(:,2));
 opti.subject_to(Y(:,Nt+2)==0);
@@ -109,7 +97,6 @@ opti.subject_to(Y(:,Nt+1)==0);
 opti.set_initial(Y, yi);
 opti.set_initial(U, 0);
  
-        
 %% ---- Dynamic constraints --------
 opti.subject_to(Y(1, 2) ==  ht*yi1(1) + (1-r^2)*yi0(1) + r^2*yi0(2));
 opti.subject_to(Y(Nx+2, 2) == ht*yi1(Nx+2) + r^2*yi0(Nx+1) + (1-r^2)*yi0(Nx+2) + r^2*hx/ci*U(1, 1));
@@ -121,21 +108,14 @@ end
 for k=3:(Nt+2)
     opti.subject_to(Y(:, k) == A1*Y(:, k-1) - Y(:, k-2) + B*U(1, k-1));
 end
-%bla = trapz( xaxe(1:Nx+1) , 1/hx^2*(Y(2:Nx+2, 1:Nt+1)-Y(1:Nx+1, 1:Nt+1)).^2 + 1/ht^2*(Y(1:Nx+1, 2:Nt+2)-Y(1:Nx+1, 1:Nt+1)).^2, 1) + U(1:Nt+1).^2;
-%bla1 = trapz(taxe(1:Nt+1), trapz( xaxe(1:Nx+1) , 1/hx^2*(yi(2:Nx+2, 1:Nt+1)-yi(1:Nx+1, 1:Nt+1)).^2 + 1/ht^2*(yi(1:Nx+1, 2:Nt+2)-yi(1:Nx+1, 1:Nt+1)).^2, 1) + u(1:Nt+1).^2);
-%trapz(taxe(1:Nt+1), trapz( xaxe(1:Nx+1) , 1/hx^2*(Y(2:Nx+2, 1:Nt+1)-Y(1:Nx+1, 1:Nt+1)).^2 + 1/ht^2*(Y(1:Nx+1, 2:Nt+2)-Y(1:Nx+1, 1:Nt+1)).^2, 1) + U(1:Nt+1).^2 );
 
 Ms = 2*eye(Nx+1); Ms(1, 1) = 1; Ms(Nx+1, Nx+1) = 1;
 Mt = 2*eye(Nt+1); Mt(1, 1) = 1; Mt(Nt+1, Nt+1) = 1;
-% gint0 = @(y) 1/hx^2*(y(2:Nx+2, 1:Nt+1)-y(1:Nx+1, 1:Nt+1)).^2 + 1/ht^2*(y(1:Nx+1, 2:Nt+2)-y(1:Nx+1, 1:Nt+1)).^2;
-% gint0 = @(y) 1/hx^2*(y(2:Nx+2, Nt+1)-y(1:Nx+1, Nt+1)).^2;
 gint0 =  @(y) 1/hx^2*(y(2:Nx+2, Nt+1)-y(1:Nx+1, Nt+1)).^2*0; 
 gint1 = @(y) alpha*Ms*gint0(y);
 int1 = @(y, u) hx/2*sum( gint1(y) , 1) + u(1, 1:Nt+1).^2;
 Func = @(y, u) ht/2*sum( int1(y, u)*Mt ) ;
-
 opti.minimize(Func(Y, U));
-
 
 %% ---- solve NLP              ------
 opti.solver('ipopt'); % set numerical backend
@@ -143,11 +123,9 @@ tic
 sol = opti.solve();   % actual solve
 toc
  
- 
 state1 = opti.value(Y);
 control1 = opti.value(U);
  
-
 % %%%gif:
 % figure;
 % filename = 'WaveNeu_y_2ndOrder_afteropti.gif';
@@ -168,7 +146,6 @@ control1 = opti.value(U);
 %     end
 % end
 
-
 figure;
 plot(taxe(1:Nt+2), control1, 'linewidth', 1.85, 'color', 'b')
 ax = gca;
@@ -178,7 +155,6 @@ set(gca,'XMinorTick','on','YMinorTick','on')
 grid minor
 exportgraphics(ax,'wave_hum.pdf','ContentType','vector')
  
-% 
 % F1=figure;
 
 % plot(control1)
