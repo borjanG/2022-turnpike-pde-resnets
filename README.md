@@ -3,7 +3,7 @@
   Turnpike in optimal control of PDEs, ResNets, and beyond
 </h1>
 
-Codes for the paper "*Turnpike in optimal control of PDEs, ResNets, and beyond*" by Borjan Geshkovski and Enrique Zuazua.
+Codes for the paper <tt>*Turnpike in optimal control of PDEs, ResNets, and beyond*</tt> by Borjan Geshkovski and Enrique Zuazua. (To appear in <tt>Acta Numerica</tt>.)
 
 ![spectrum](imgs/readme.png)
 
