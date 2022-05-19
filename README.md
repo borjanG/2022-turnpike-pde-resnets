@@ -25,5 +25,5 @@ Codes for the paper "*Turnpike in optimal control of PDEs, ResNets, and beyond*"
 ```
 
 <p align="center">
-  <img src="https://zenodo.org/badge/DOI/10.48550/arXiv.2203.03012.svg" link="https://doi.org/10.48550/arXiv.2203.03012">
+  <img src="https://zenodo.org/badge/DOI/10.48550/arXiv.2202.04097.svg" link="https://doi.org/10.48550/arXiv.2202.04097">
 </p>
