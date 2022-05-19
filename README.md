@@ -4,7 +4,9 @@
 </h1>
 
 <tt>Matlab</tt> (<tt>CasADi-IPOPT</tt>) codes for the paper 
-[*Turnpike in optimal control of PDEs, ResNets, and beyond*](https://doi.org/10.48550/arXiv.2202.04097) by Borjan Geshkovski and Enrique Zuazua. (To appear in <tt>Acta Numerica</tt>.)
+[*Turnpike in optimal control of PDEs, ResNets, and beyond*](https://doi.org/10.48550/arXiv.2202.04097) by Borjan Geshkovski and Enrique Zuazua. (To appear in [*Acta Numerica*](https://www.cambridge.org/core/journals/acta-numerica).)
+
+
 
 ![spectrum](imgs/readme.png)
 
