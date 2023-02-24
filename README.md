@@ -3,6 +3,10 @@
   Turnpike in optimal control of PDEs, ResNets, and beyond
 </h1>
 
+<p align="center">
+  <img src="https://zenodo.org/badge/DOI/10.48550/arXiv.2202.04097.svg" link="https://doi.org/10.48550/arXiv.2202.04097">
+</p>
+
 <tt>Matlab</tt> (<tt>CasADi-IPOPT</tt>) codes for the paper 
 [*Turnpike in optimal control of PDEs, ResNets, and beyond*](https://doi.org/10.48550/arXiv.2202.04097) by Borjan Geshkovski and Enrique Zuazua. (To appear in [*Acta Numerica*](https://www.cambridge.org/core/journals/acta-numerica).)
 
@@ -26,7 +30,3 @@
       primaryClass={math.OC}
 }
 ```
-
-<p align="center">
-  <img src="https://zenodo.org/badge/DOI/10.48550/arXiv.2202.04097.svg" link="https://doi.org/10.48550/arXiv.2202.04097">
-</p>
