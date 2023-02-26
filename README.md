@@ -20,7 +20,7 @@
 
 ## Citing
 
-```
+```bibtex
 @article{geshkovski2022turnpike,
   title={Turnpike in optimal control of PDEs, ResNets, and beyond},
   author={Geshkovski, Borjan and Zuazua, Enrique},
